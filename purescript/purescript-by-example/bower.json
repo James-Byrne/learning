@@ -1,5 +1,5 @@
 {
-  "name": "first-project",
+  "name": "purescript-by-example",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -8,8 +8,7 @@
   ],
   "dependencies": {
     "purescript-prelude": "^3.1.0",
-    "purescript-console": "^3.0.0",
-    "purescript-math": "^2.1.0"
+    "purescript-console": "^3.0.0"
   },
   "devDependencies": {
     "purescript-psci-support": "^3.0.0"
