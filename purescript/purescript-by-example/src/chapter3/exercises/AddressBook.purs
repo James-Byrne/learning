@@ -1,9 +1,9 @@
-module Data.AddressBook where
+module Chapter3.Exercises.AddressBook where
 
 import Prelude
 
 import Control.Plus (empty)
-import Data.List (List(..), filter, head)
+import Data.List (List(..), filter, head, null, nubBy)
 import Data.Maybe (Maybe)
 
 -- Type definitions
@@ -45,6 +45,22 @@ showAddress address =
 -- Esentially get an empty List of type List Entry
 emptyBook :: AddressBook
 emptyBook = empty
+
+-- | Returns a new empty entry
+newEntry :: Entry
+newEntry =
+  { firstName: ""
+  , lastName: ""
+  , address: newAddress
+  }
+
+-- | Returns a new empty Address
+newAddress :: Address
+newAddress =
+  { street: ""
+  , city: ""
+  , state: ""
+  }
 
 -- | > insertEntry
 -- | Insert an entry into an addressbook
@@ -97,3 +113,47 @@ findEntry firstName lastName = head <<< filter filterEntry
   where
   filterEntry :: Entry -> Boolean
   filterEntry entry = entry.firstName == firstName && entry.lastName == lastName
+
+
+-- | Excersises
+
+type Street = String
+
+-- | I found this through checking the type in psci
+-- | usage : printEntry (findEntry "James" "Byrne" emptyBook)
+printEntry :: forall a. Functor a => a Entry -> a String
+printEntry = map showEntry
+
+
+-- | 2 -> (Medium) Write a function which looks up an Entry given a
+-- | street address, by reusing the existing code in findEntry. Test
+-- | your function in PSCi.
+-- | PASSED
+findEntryByAddress :: Street -> AddressBook -> Maybe Entry
+findEntryByAddress street = head <<< filter filterEntry
+  where
+    filterEntry :: Entry -> Boolean
+    filterEntry entry = entry.address.street == street
+
+-- | 3 -> (Medium) Write a function which tests whether a name appears
+-- | in a AddressBook, returning a Boolean value. Hint: Use PSCi to
+-- | find the type of the Data.List.null function, which test whether
+-- | a list is empty or not.
+-- | PASSED
+listContainsEntryWithName :: FirstName -> AddressBook -> Boolean
+listContainsEntryWithName firstName = null <<< filter filterEntry
+  where
+    filterEntry :: Entry -> Boolean
+    filterEntry entry = entry.firstName == firstName
+
+-- | 4 -> (Difficult) Write a function removeDuplicates which removes
+-- | duplicate address book entries with the same first and last names.
+-- | Hint: Use PSCi to find the type of the Data.List.nubBy function,
+-- | which removes duplicate elements from a list based on an equality
+-- | predicate.
+-- | PASSED
+removeDuplicates :: FirstName -> AddressBook -> AddressBook
+removeDuplicates firstName = nubBy sameName
+
+sameName :: Entry -> Entry -> Boolean
+sameName entry1 entry2 = entry1.firstName == entry2.firstName
