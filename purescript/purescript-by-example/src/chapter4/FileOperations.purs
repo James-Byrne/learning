@@ -1,8 +1,8 @@
-module FileOperations where
+module Chapter4.FileOperations where
 
 import Prelude
 
-import Data.Path (Path, ls)
+import Chapter4.Data.Path (Path, ls)
 import Data.Array (concatMap, (:))
 
 allFiles :: Path -> Array Path
