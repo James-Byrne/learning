@@ -6,6 +6,12 @@ import Data.Array (null, filter)
 import Data.Array.Partial (tail, head)
 import Partial.Unsafe (unsafePartial)
 
+length :: forall a. Array a -> Int
+length arr =
+  if null arr
+     then 0
+     else 1 + length(unsafePartial tail arr)
+
 -- | Exercises
 
 -- | 1 - Write a recursive method which checks if a prop is even or odd
@@ -15,14 +21,8 @@ isEven n | n < -1 = true
 isEven n = isEven (n-2)
 
 -- | 2 - Write a recursive function that counts the number of even numbers in an array
-numOfEvenNumbers :: Array -> Int
-numOfEvenNumbers arr = length <<< filter isEven
-
-length :: forall a. Array a -> Int
-length arr =
-  if null arr
-     then 0
-     else 1 + length(unsafePartial tail arr)
+numOfEvenNumbers :: Array Int -> Int
+numOfEvenNumbers = length <<< filter isEven
 
 
 -- | Testing things
